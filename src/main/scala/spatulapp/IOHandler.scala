@@ -15,9 +15,9 @@ object IOHandler {
   def log(m: String): Unit =
     dom.console.log(m)
 
-  def get[T](url: String)(func : String => T): T = {
+  def get[T](url: String)(func : String => T): Future[T] = {
+    
     val request = Ajax.get(url = url)
-    val res = Await.result(request, Duration(10, SECONDS)) 
-     func(res.responseText)
+    request.map(x => func(x.responseText))
   }
 }
