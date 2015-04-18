@@ -1,11 +1,16 @@
 import scala.scalajs.js
-import js.annotation.JSExport
+import org.scalajs.jquery.jQuery
 import org.scalajs.dom
 
-object ScalaJSExample extends js.JSApp {
+object Spatula extends js.JSApp {
+
   def main(): Unit = {
+
     val paragraph = dom.document.createElement("p")
     paragraph.innerHTML = "<strong>It will work!</strong>"
-    dom.document.getElementById("playground").appendChild(paragraph)
+    //dom.document.getElementById("search").appendChild(paragraph)
+    jQuery("body").append("<p>[message]</p>")
+
   }
+
 }
