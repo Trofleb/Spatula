@@ -1,7 +1,6 @@
 package spatulapp
 
 import org.scalajs.dom
-import org.scalajs.dom.raw.MouseEvent
 import org.scalajs.jquery.{jQuery => $, _}
 import spatulapp.Recipe.Ingredient
 
@@ -101,7 +100,7 @@ object SearchView extends View {
 		result(id).append(
 			s"""
 			  |<a href="" class="recipe">
-			  |		<img src="${r.pictures.head}">
+			  |		<img src="${r.picture.get}">
 			  |		<div class="infos">
 			  |		    <h3>${r.title}</h3><span class="score pull-right">${r.stars}</span>
 			  |		</div>
@@ -185,7 +184,7 @@ object RecipeView extends View {
 
 	def updateMeta(r: Recipe): Unit = {
 		$("h3", meta).html(r.title)
-		$("img", meta).attr("src", r.presentationPicture)
+		$("img", meta).attr("src", r.picture.get)
 		$(".score", meta).html(r.stars.toString)
 		val site = $(".site", meta)
 		site.html(r.website)
@@ -213,7 +212,7 @@ object RecipeView extends View {
 		trashSteps
 		updateMeta(r)
 		addIngredient(r.ingredients)
-		addStep(r.stepByStep)
+		addStep(r.instructions)
 	}
 
 }

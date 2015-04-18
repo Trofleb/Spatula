@@ -1,23 +1,20 @@
 package spatulapp
 
-
-import org.scalajs.dom
+import org.scalajs.jquery.JQuery
 import spatulapp.CookingList.ListID
 import spatulapp.Recipe.RecipeID
 
-import scala.collection.immutable.TreeSet
+import scala.concurrent.Future
 import scala.scalajs.js
-import org.scalajs.dom.raw._
-import org.scalajs.jquery.{jQuery => $, JQueryEventObject}
-import scala.math.Ordering._
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
+import scala.util.{Success, Failure}
 
 object Spatula extends js.JSApp {
+  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider)
+  var recipes = Map.empty[RecipeID, Recipe]
 
-  val testData = Vector(
+  /*val testData = Vector(
     new Recipe(
       "Spaghetti",
       2,
@@ -45,25 +42,22 @@ object Spatula extends js.JSApp {
       "Marmiton hihi",
       "http://www.marmiton.org/recettes/recette_fondue-de-poireaux_20348.aspx"
     )
-  )
+  )*/
 
   val testLists = List(
     new CookingList("french"),
     new CookingList("english")
   )
 
-  val recipes = testData.map(e => e.id -> e).toMap
-  val lists = testLists.map(e => e.name -> e).toMap
+  //val recipes = testData.map(e => e.id -> e).toMap
+  val cookingList = testLists.map(e => e.name -> e).toMap
 
-  lists("french") += recipes(1)
-  lists("french") += recipes(2)
-  lists("english") += recipes(0)
 
   def main: Unit = {
 
     //$("body").append("<p>[message]</p>")
 
-    //log("meeeeh")
+    //$("#lookup").on(events = "change", handler = "")
 
     //val request = IOHandler.get("http://bigoven.com")
 
@@ -72,14 +66,41 @@ object Spatula extends js.JSApp {
       case Failure(_) => IOHandler.log("There was an error fetching the webpage")
     }*/
 
-
-
-    showRecipe(1)
+    //showRecipe(1)
     //showList("french")
-    SideView.updateCookingList(lists.map(_._2).toSeq)
+    SideView.updateCookingList(cookingList.map(_._2).toSeq)
 
-    println("test")
+      Events.on("change")("#lookup", Events.body)((e: JQuery) => {
+          searchTerms(e.value.toString)
+      })
+
   }
+
+    def searchTerms(terms: String): Unit = {
+        val searches = sites.map(x => x.search(terms)).foldLeft(Future(Seq.empty[Recipe])){
+            case (lf1, lf2) => for(l1 <- lf1; l2 <- lf2) yield l1 ++ l2
+        }
+
+        searches onComplete {
+            case Success(s) =>
+                s.foreach(r => {
+                    println("-------------------------------")
+                    println("Title : " + r.title)
+                    println("Stars : " + r.stars)
+                    println("Picture : " + r.picture)
+                    println("Ingredients : \n" + r.ingredients.mkString("\n"))
+                    println("Instructions : \n" + r.instructions.mkString("\n"))
+                    println("Website : " + r.website)
+                    println("Origin url : " + r.originUrl)
+                })
+                recipes = s.map(e => e.id -> e).toMap
+                showRecipe(recipes.head._1)
+                cookingList("french") += recipes(1)
+                cookingList("french") += recipes(2)
+                cookingList("english") += recipes(0)
+            case Failure(_) => IOHandler.log("there is error(s?)")
+        }
+    }
 
   def showSearch: Unit = {
     SearchView.show
@@ -102,7 +123,7 @@ object Spatula extends js.JSApp {
     RecipeView.hide
     CookingListView.show
 
-    CookingListView(lists(id))
+    CookingListView(cookingList(id))
   }
 
 }
