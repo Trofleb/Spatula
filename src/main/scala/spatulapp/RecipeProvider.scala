@@ -5,7 +5,7 @@ import org.scalajs.jquery.{JQuery, jQuery}
 abstract class RecipeProvider{
   val MAX_RECIPE = 3
 //-----
-  val queryUrl: String
+  var queryUrl: String
 //-----
   def parseHtml(text: String) = jQuery(jQuery.parseHTML(text))
   def find(parsed: JQuery, what: String) = parsed.find(what)
