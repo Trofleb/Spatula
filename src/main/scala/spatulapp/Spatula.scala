@@ -36,7 +36,7 @@ object Spatula extends js.JSApp {
 
   def get(url: String): Future[XMLHttpRequest] = {
     val domain = url
-    Ajax.get(url = "http://google.com", headers = Map("Origin" -> domain, "Access-Control-Allow-Origin" -> domain))
+    Ajax.get(url = url, headers = Map("Origin" -> domain, "Access-Control-Allow-Origin" -> domain))
   }
 
 
