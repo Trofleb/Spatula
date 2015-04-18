@@ -26,7 +26,7 @@ object ComRecipeProvider extends RecipeProvider {
 
     val recipeLinks = findRecipesLinks(document).take(MAX_RECIPE)
     val recipes = recipeLinks map {case x : String => IOHandler.get(x)(parseRecipePage)}
-    // IOHandler.log(recipes.toList.map(_.toString) mkString(" "))
+    IOHandler.log(recipes.toList.map(_.toString) mkString(" "))
 
     recipes.foldLeft(Future(Seq.empty[Recipe])){
       case (list , recipe) => for(l <- list; r <- recipe) yield r +: l
