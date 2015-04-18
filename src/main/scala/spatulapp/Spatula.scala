@@ -1,32 +1,25 @@
 package spatulapp
 
-
+import scala.Seq
 import scala.scalajs.js
 import org.scalajs.dom.raw._
 import org.scalajs.jquery.jQuery
 
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scala.util.{Failure, Success}
-
 object Spatula extends js.JSApp {
+  val sites : Seq[RecipeProvider] = RecipeCom)
 
   val $ = jQuery
 
   def main(): Unit = {
 
+    //$("#lookup").on(events = "change", handler = "")
+
+    val searchTerm = "curry"
+
     $("body").append("<p>[message]</p>")
 
     //log("meeeeh")
-
-    val request = IOHandler.get("http://bigoven.com")
-
-    request onComplete {
-      case Success(s) => println(s.responseXML); IOHandler.log("hello")
-      case Failure(_) => IOHandler.log("There was an error fetching the webpage")
-    }
-
+    sites flatMap (_.search(searchTerm))
 
   }
 

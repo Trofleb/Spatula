@@ -7,13 +7,17 @@ import org.scalajs.dom.ext._
 
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent._
+import scala.concurrent.duration._
+import scala.util.{Failure, Success}
 
 object IOHandler {
   def log(m: String): Unit =
     dom.console.log(m)
 
-  def get(url: String): Future[XMLHttpRequest] = {
-    Ajax.get(url = "http://www.zifeo.com/hackathon.php?key=xi3nu2859323xu2&get="+url)
+  def get[T](url: String)(func : String => T): T = {
+    val request = Ajax.get(url = url)
+    val res = Await.result(request, Duration(10, SECONDS)) 
+     func(res.responseText)
   }
 }

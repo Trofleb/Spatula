@@ -1,10 +1,10 @@
 package spatulapp
 
-import scala.collection.immutable.Seq
+import scala.Seq
 
 class Receipe(
 	val title: String,
-	val stars: Int,
+	val stars: Double,
 	val pictures: Seq[String],
 	val ingredients: Seq[String],
 	val stepByStep: Seq[String],
