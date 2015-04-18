@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Failure}
 
 object Spatula extends js.JSApp {
-  val sites : Seq[RecipeProvider] = Seq(ComRecipeProvider)
+  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider)
 
   var recipes : Seq[Recipe] = Seq()
 
@@ -31,7 +31,16 @@ object Spatula extends js.JSApp {
     }
 
     searches onComplete {
-      case Success(s) => recipes = s
+      case Success(s) => s.foreach(r => {
+          println("-------------------------------")
+          println("Title : " + r.title)
+          println("Stars : " + r.stars)
+          println("Picture : " + r.picture)
+          println("Ingredients : \n" + r.ingredients.mkString("\n"))
+          println("Instructions : \n" + r.instructions.mkString("\n"))
+          println("Website : " + r.website)
+          println("Origin url : " + r.originUrl)
+        }); recipes = s
       case Failure(_) => IOHandler.log("there is error(s?)")
     }
   }
