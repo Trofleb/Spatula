@@ -1,6 +1,5 @@
 package spatulapp
 
-
 import org.scalajs.dom
 import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.jquery.jQuery
