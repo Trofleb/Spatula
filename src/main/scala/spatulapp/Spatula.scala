@@ -2,8 +2,8 @@ package spatulapp
 
 import org.scalajs.dom
 import org.scalajs.jquery.jQuery
+import org.scalajs.dom.ext._
 
-import scala.io.Source
 import scala.scalajs.js
 
 object Spatula extends js.JSApp {
@@ -16,20 +16,12 @@ object Spatula extends js.JSApp {
 
     log("meeeeh")
 
-    get("http://google.com")(log)
+    Ajax.get("http://google.com") // this is a future !
 
   }
 
   def log(m: String): Unit =
     dom.console.log(m)
-
-  def get(url: String)(callback: String => Unit): Unit =
-    $.get(url, {
-      e: Any => e match {
-        case s: String => callback(s)
-        case _ => log("get: matcherror")
-      }
-    })
 
 
 }
