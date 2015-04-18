@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Failure}
 
 object Spatula extends js.JSApp {
-  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider)
+  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider, ComRecipeProvider)
 
   var recipes : Seq[Recipe] = Seq()
 
