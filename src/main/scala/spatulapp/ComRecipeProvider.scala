@@ -3,6 +3,8 @@ package spatulapp
 import scala.util.matching
 import scala.concurrent._
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 object ComRecipeProvider extends RecipeProvider {
 
   val notRecipes = Seq("how-to",
@@ -20,13 +22,15 @@ object ComRecipeProvider extends RecipeProvider {
 
   queryUrl = "http://www.recipe.com/search/?searchTerm="
 
-  def parseResults(document : String) : Seq[Future[Recipe]] = {
+  def parseResults(document : String) : Future[Seq[Recipe]] = {
 
     val recipeLinks = findRecipesLinks(document).take(MAX_RECIPE)
-    val recipes = recipeLinks map (IOHandler.get(_)(parseRecipePage))
-    IOHandler.log(recipes.toList.map(_.toString) mkString(" "))
+    val recipes = recipeLinks map {case x : String => IOHandler.get(x)(parseRecipePage)}
+    // IOHandler.log(recipes.toList.map(_.toString) mkString(" "))
 
-    recipes.toList
+    recipes.foldLeft(Future(Seq.empty[Recipe])){
+      case (list , recipe) => for(l <- list; r <- recipe) yield r +: l
+    }
   }
 
   def findRecipesLinks(document : String) : Iterator[String] = {

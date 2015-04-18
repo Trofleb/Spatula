@@ -19,5 +19,7 @@ object IOHandler {
     
     val request = Ajax.get(url = url)
     request.map(x => func(x.responseText))
+
+
   }
 }

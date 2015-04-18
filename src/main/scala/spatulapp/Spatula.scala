@@ -1,12 +1,16 @@
 package spatulapp
 
 import scala.Seq
+import scala.concurrent.Future
 import scala.scalajs.js
 import org.scalajs.dom.raw._
 import org.scalajs.jquery.jQuery
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Success
+
 object Spatula extends js.JSApp {
-  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider)
+  val sites : Seq[RecipeProvider] = Seq(ComRecipeProvider)
 
   val $ = jQuery
 
@@ -19,8 +23,11 @@ object Spatula extends js.JSApp {
     $("body").append("<p>[message]</p>")
 
     //log("meeeeh")
-    val recipes = sites flatMap (_.search(searchTerm))
+    val searches = sites.map(x => x.search(searchTerm)).foldLeft(Future(Seq.empty[Recipe])){
+      case (lf1, lf2) => for(l1 <- lf1; l2 <- lf2) yield l1 ++ l2
+    }
 
+    searches
   }
 
 }
