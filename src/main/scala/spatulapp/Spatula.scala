@@ -4,7 +4,6 @@ package spatulapp
 import scala.scalajs.js
 import org.scalajs.dom.raw._
 import org.scalajs.jquery.jQuery
-import org.scalajs.dom.ext._
 
 
 import scala.concurrent.ExecutionContext.Implicits.global
