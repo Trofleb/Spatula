@@ -1,7 +1,5 @@
 package spatulapp
 
-import scala.collection.immutable.Seq
-
 class Receipe(
 	val title: String,
 	val stars: Int,

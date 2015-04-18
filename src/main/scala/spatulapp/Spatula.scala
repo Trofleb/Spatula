@@ -9,7 +9,7 @@ import org.scalajs.dom.ext._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{Try, Success}
+import scala.util.{Try, Success, Failure}
 
 object Spatula extends js.JSApp {
 
@@ -27,6 +27,9 @@ object Spatula extends js.JSApp {
       case Success(s) => println(s.responseText)
     })
 
+    val snif = new spatulapp.AllReceipeSniffer()
+
+    snif.search("pesto")
 
   }
 
