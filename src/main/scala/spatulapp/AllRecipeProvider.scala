@@ -25,7 +25,7 @@ object AllRecipeProvider extends RecipeProvider{
         val elem = jQuery(e)
         val star = find(elem, ".rating-stars-grad").width/82
         val title = find(elem, ".title").html
-        //val (pic, ingredients, instructions, website, ) = extract("http://allrecipes.com/Recipe/" + title)
+        //val (pic, ingredients, instructions, website, ) = spatula.get("http://allrecipes.com/Recipe/" + title, extract)
         println(find(elem, ".rating-stars-grad").width)
       }//yield(Receipe(title, star, pic, ingredients, instructions, url))
       Seq()
@@ -35,7 +35,6 @@ object AllRecipeProvider extends RecipeProvider{
   }
 
   def extract() = {
-
   }
 
 }
