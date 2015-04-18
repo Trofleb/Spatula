@@ -1,10 +1,16 @@
 package spatulapp
 
+
 import org.scalajs.dom
+import org.scalajs.dom.XMLHttpRequest
 import org.scalajs.jquery.jQuery
 import org.scalajs.dom.ext._
 
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.scalajs.js
+import scala.util.{Try, Success}
 
 object Spatula extends js.JSApp {
 
@@ -14,14 +20,24 @@ object Spatula extends js.JSApp {
 
     $("body").append("<p>[message]</p>")
 
-    log("meeeeh")
+    //log("meeeeh")
 
-    Ajax.get("http://google.com") // this is a future !
+    val request = get("http://google.com")
+
+    request.onComplete((e: Try[XMLHttpRequest]) => e match {
+      case Success(s) => println(s.responseText)
+    })
+
 
   }
 
   def log(m: String): Unit =
     dom.console.log(m)
+
+  def get(url: String): Future[XMLHttpRequest] = {
+    val domain = url
+    Ajax.get(url = "http://google.com", headers = Map("Origin" -> domain, "Access-Control-Allow-Origin" -> domain))
+  }
 
 
 }
