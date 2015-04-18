@@ -16,10 +16,7 @@ object IOHandler {
     dom.console.log(m)
 
   def get[T](url: String)(func : String => T): Future[T] = {
-    
     val request = Ajax.get(url = url)
     request.map(x => func(x.responseText))
-
-
   }
 }
