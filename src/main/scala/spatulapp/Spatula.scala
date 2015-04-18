@@ -10,7 +10,7 @@ import org.scalajs.dom.ext._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.scalajs.js
-import scala.util.{Try, Success}
+import scala.util.{Failure, Success}
 
 object Spatula extends js.JSApp {
 
@@ -22,11 +22,12 @@ object Spatula extends js.JSApp {
 
     //log("meeeeh")
 
-    val request = get("http://google.com")
+    val request = get("http://bigoven.com")
 
-    request.onComplete((e: Try[XMLHttpRequest]) => e match {
+    request onComplete {
       case Success(s) => println(s.responseText)
-    })
+      case Failure(_) => log("There was an error fetching the webpage")
+    }
 
 
   }
@@ -35,8 +36,7 @@ object Spatula extends js.JSApp {
     dom.console.log(m)
 
   def get(url: String): Future[XMLHttpRequest] = {
-    val domain = url
-    Ajax.get(url = url, headers = Map("Origin" -> domain, "Access-Control-Allow-Origin" -> domain))
+    Ajax.get(url = "http://www.zifeo.com/hackathon.php?key=xi3nu2859323xu2&get="+url)
   }
 
 
