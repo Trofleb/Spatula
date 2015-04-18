@@ -17,20 +17,10 @@ object Spatula extends js.JSApp {
 
     //log("meeeeh")
 
-    val request = IOHandler.get("http://bigoven.com")
-
-    request onComplete {
-      case Success(s) => println(s.responseXML); IOHandler.log("hello")
-      case Failure(_) => IOHandler.log("There was an error fetching the webpage")
-    }
-
     val snif = new spatulapp.AllReceipeSniffer()
 
     snif.search("pesto")
 
   }
-
-
-
 
 }

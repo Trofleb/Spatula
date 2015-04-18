@@ -1,7 +1,10 @@
 package spatulapp
 
+import org.scalajs.dom.raw.DOMParser
+import org.scalajs.jquery.{JQuery, jQuery}
+
 abstract class Sniffer{
-  val parser = new DOMParser()
-  def parseHtml(text: String) = parser.parseFromString(text, "text/html")
+  def parseHtml(text: String) = jQuery(jQuery.parseHTML(text))
+  def find(parsed: JQuery)(what: String) = parsed.find(what)
 	def search(terms: String): Seq[Receipe]
 }

@@ -14,6 +14,6 @@ object IOHandler {
     dom.console.log(m)
 
   def get(url: String): Future[XMLHttpRequest] = {
-    Ajax.get(url = "http://www.zifeo.com/hackathon.php?key=xi3nu2859323xu2&get="+url)
+    Ajax.get(url = url)
   }
 }
