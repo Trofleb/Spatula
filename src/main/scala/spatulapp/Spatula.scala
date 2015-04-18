@@ -1,11 +1,8 @@
 package spatulapp
 
-
 import scala.scalajs.js
 import org.scalajs.dom.raw._
 import org.scalajs.jquery.jQuery
-
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
@@ -27,6 +24,9 @@ object Spatula extends js.JSApp {
       case Failure(_) => IOHandler.log("There was an error fetching the webpage")
     }
 
+    val snif = new spatulapp.AllReceipeSniffer()
+
+    snif.search("pesto")
 
   }
 
