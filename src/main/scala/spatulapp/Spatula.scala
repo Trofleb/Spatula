@@ -6,7 +6,7 @@ import org.scalajs.dom.raw._
 import org.scalajs.jquery.jQuery
 
 object Spatula extends js.JSApp {
-  val sites : Seq[RecipeProvider] = Seq(spatulapp.AllRecipeProvider)
+  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider)
 
   val $ = jQuery
 

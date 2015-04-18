@@ -1,6 +1,7 @@
 package spatulapp
 
 import scala.util.matching
+import scala.concurrent._
 
 object ComRecipeProvider extends RecipeProvider {
 
@@ -16,12 +17,13 @@ object ComRecipeProvider extends RecipeProvider {
                        "images",
                        "common",
                        "free-stuff")
+
   queryUrl = "http://www.recipe.com/search/?searchTerm="
 
-  def parseResults(document : String) : List[Recipe] = {
+  def parseResults(document : String) : Seq[Future[Recipe]] = {
 
     val recipeLinks = findRecipesLinks(document).take(MAX_RECIPE)
-    val recipes = recipeLinks map (IOHandler.get()(parseRecipePage))
+    val recipes = recipeLinks map (IOHandler.get(_)(parseRecipePage))
     IOHandler.log(recipes.toList.map(_.toString) mkString(" "))
 
     recipes.toList
@@ -36,7 +38,7 @@ object ComRecipeProvider extends RecipeProvider {
   def parseRecipePage(page : String) : Recipe = {
     IOHandler.log(page)
     val patternName = """""".r
-    new Receipe("title", 1.0, /*pictures*/ Seq(), /*ingredients*/ Seq(),
-      /*stepByStep*/ Seq(), "recipe.com", link)
+    Recipe("title", 1.0, /*pictures*/ Option("img"), /*ingredients*/ Seq(),
+      /*stepByStep*/ Seq(), "recipe.com", "hello")
   }
 }
