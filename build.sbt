@@ -1,18 +1,15 @@
-import com.lihaoyi.workbench.Plugin._
-
 enablePlugins(ScalaJSPlugin)
 
-workbenchSettings
+name := "spatula"
 
-libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.8.0"
+version := "0.0.0.0.0.0.0.0.1"
 
-bootSnippet := "example.ScalaJSExample().main(document.getElementById('canvas'));"
-
-updateBrowsers «= updateBrowsers.triggeredBy(fastOptJS in Compile)
-
-name := "Spatula"
-
-version := "1.0"
+scalaOptions ++= Seq("-depecation", "-feature")
 
 scalaVersion := "2.11.6"
 
+persistLauncher in Compile := true
+
+libraryDependencies ++= Seq(
+    "org.scala-js" %%% "scalajs-dom" % "0.8.0"
+)

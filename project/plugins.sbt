@@ -1,1 +1,1 @@
-logLevel := Level.Warn
+addSbtPlugin("org.scal-js" % "sbt-scalajs" % "0.6.2")
