@@ -14,7 +14,7 @@ abstract class RecipeProvider{
 	def parseResults(html: String): Seq[Future[Recipe]]
 //-----
   def escape(terms: String) = terms.replaceAllLiterally(" ", "%20")
-  def search(terms: String) = {
+  def search(terms: String): Future[Seq[Future[Recipe]]] = {
     val searchQuery = escape(terms)
     val query = queryUrl + searchQuery
     IOHandler.get(query)(parseResults)

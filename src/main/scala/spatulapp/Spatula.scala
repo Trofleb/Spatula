@@ -19,7 +19,7 @@ object Spatula extends js.JSApp {
     $("body").append("<p>[message]</p>")
 
     //log("meeeeh")
-    //sites flatMap (_.search(searchTerm))
+    val recipes = sites flatMap (_.search(searchTerm))
 
   }
 
