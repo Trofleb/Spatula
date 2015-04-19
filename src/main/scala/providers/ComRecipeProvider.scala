@@ -1,10 +1,11 @@
-package spatulapp
+package providers
 
 import scala.util.matching
 import scala.concurrent._
 import org.scalajs.jquery.{JQuery, jQuery}
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import spatulapp._
 
 object ComRecipeProvider extends RecipeProvider {
 
@@ -65,7 +66,7 @@ object ComRecipeProvider extends RecipeProvider {
     val score = denominator / 5.0
 
     
-    IOHandler.log(title)
+    //IOHandler.log(title)
 
     val patternPicture = """<img class=\"photo\" itemprop=\"image\" src=\"http\:\/\/www\.recipe\.com\/images\/([a-zA-Z\d\-]+)\.jpg\" """.r
 

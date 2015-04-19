@@ -1,9 +1,10 @@
-package spatulapp
+package providers
 
 import scala.concurrent.Future
 import org.scalajs.jquery.jQuery
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import spatulapp._
 
 object SimplyRecipesProvider extends RecipeProvider {
 

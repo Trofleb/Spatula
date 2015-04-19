@@ -11,6 +11,8 @@ import scala.scalajs.js
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Failure}
+import providers._
+import display._
 
 object Spatula extends js.JSApp {
 
@@ -55,33 +57,23 @@ object Spatula extends js.JSApp {
     }
 
     def searchTerms(terms: String): Unit = {
-        val searches = sites.map(x => x.search(terms)).foldLeft(Future(Seq.empty[Recipe])){
+        val searches = Future.sequence(sites.map(x => x.search(terms)))/*.foldLeft(Future(Seq.empty[Recipe])){
             case (lf1, lf2) => for(l1 <- lf1; l2 <- lf2) yield l1 ++ l2
-        }
+        }*/
 
         searches onComplete {
-            case Success(s) =>
-                s.foreach(r => {
-                    println("-------------------------------")
-                    println("Title : " + r.title)
-                    println("Stars : " + r.stars)
-                    println("Picture : " + r.picture)
-                    println("Ingredients : \n" + r.ingredients.mkString("\n"))
-                    println("Instructions : \n" + r.instructions.mkString("\n"))
-                    println("Website : " + r.website)
-                    println("Origin url : " + r.originUrl)
-                })
-                recipes = s.map(e => e.id -> e).toMap
-
-                showSearch
-
-
-                //showRecipe(recipes.head._1)
-                cookingList("french") += recipes(1)
-                cookingList("french") += recipes(2)
-                cookingList("english") += recipes(0)
+            case Success(s) => onSuccessSearch(s.flatten)
             case Failure(_) => IOHandler.log("there is error(s?)")
         }
+    }
+
+    def onSuccessSearch(s: Seq[Recipe]){
+      recipes = s.map(e => e.id -> e).toMap
+      showSearch
+      //showRecipe(recipes.head._1)
+      cookingList("french") += recipes(1)
+      cookingList("french") += recipes(2)
+      cookingList("english") += recipes(0)
     }
 
     def showSearch: Unit = {
@@ -95,7 +87,6 @@ object Spatula extends js.JSApp {
         SearchView.hide
         RecipeView.show
         CookingListView.hide
-
         RecipeView(recipes(id))
     }
 
@@ -103,7 +94,6 @@ object Spatula extends js.JSApp {
         SearchView.hide
         RecipeView.hide
         CookingListView.show
-
         CookingListView(cookingList(id))
     }
 

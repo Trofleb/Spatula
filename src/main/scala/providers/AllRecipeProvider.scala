@@ -1,9 +1,10 @@
-package spatulapp
+package providers
 
 import scala.util.{Try, Success, Failure}
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.scalajs.jquery.{JQuery, jQuery}
 import scala.concurrent.Future
+import spatulapp._
 
 object AllRecipeProvider extends RecipeProvider{
 
