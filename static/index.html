@@ -13,35 +13,110 @@
 	</head>
 	<body>
 		<div id="site">
-			<header class="row">
-				<div id="logo" class="col-xs-4">
-					<a href=""><h1>Spatula</h1></a>
+			<header id="topbar" class="row">
+				<div class="col-xs-3">
+					<h1 id="logo">Spatula</h1>
 				</div>
-				<div id="search" class="col-xs-4">
-					
+				<div id="search" class="col-xs-6">
+					<input id="lookup" placeholder="Pasta pesto">
 				</div>
-				<nav>
-					<!--<ul>
-						<li><a href="" title=""></a></li>
-						<li><a href="" title=""></a></li>
-						<li><a href="" title=""></a></li>
-					</ul>-->
-				</nav>
-			</header>
-	 		<div class="row">
-		 		<div>
-			 		<input id="lookup" />
-			 		sdfds
-		 		</div>
+				<div class="col-xs-3">
+					<div id="command" class="btn-group pull-right" role="group" aria-label="...">
+					  <a class="btn btn-link" id="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
+					  <a class="btn btn-link disabled" href=""><span class="glyphicon glyphicon-chevron-right"></span></a>
+					</div>
 			</div>
-			<footer>
+			</header>
+	 		<div id="main" class="row">
+		 		<nav id="side" class="col-xs-3">
+					<h2>Cooking lists</h2>
+					<ul id="cookingList">
+						<li><a href="" rel=""><span class="glyphicon glyphicon-cutlery"></span>Item</a></li>
+						<li><a href="" rel=""><span class="glyphicon glyphicon-cutlery"></span>Item</a></li>
+					</ul>
+					<button class="btn btn-link" type="button" id="new">New cooklist</button>
+					<h2>Last 5 search</h2>
+					<ul id="lastSearch">
+						<li><a href="" rel=""><span class="glyphicon glyphicon-search"></span>Item</a></li>
+						<li><a href="" rel=""><span class="glyphicon glyphicon-search"></span>Item</a></li>
+					</ul>
+					<button class="btn btn-link" type="button" id="clear">Clear</button>
+				</nav>
+				<div id="search-mode" class="mode">
+					<div id="result1" class="cooking col-xs-3">
+						<a href="" class="recipe">
+							<img src="">
+							<div class="infos">
+								<h3>Blabla</h3><span class="score pull-right">0.89</span>
+							</div>
+						</a>
+						<a href="" class="recipe">
+							<img src="">
+							<div class="infos">
+								<h3>Blabla</h3><span class="score pull-right">0.89</span>
+							</div>
+						</a>
+					</div>
+					<div id="result2" class="cooking col-xs-3">
 			
+					</div>
+					<div id="result3" class="cooking col-xs-3">
+						
+					</div>
+				</div>
+				<div id="recipe-mode" class="mode">
+					<div id="meta" class="cooking col-xs-3">
+						<h3>Blabla</h3>
+						<img src="">
+						<div class="facts">
+							<span class="glyphicon glyphicon-certificate"></span><strong>Score</strong> : <span class="score">0.89</span><br>
+							<span class="glyphicon glyphicon-cloud"></span><strong>Site</strong> : <a class="site" href="">http://google.com</a>
+						</div>
+						<button class="btn btn-link" type="button" id="add">Add to list</button>
+					</div>
+					<div id="ingredients" class="cooking col-xs-3">
+						<h2>Ingredients</h2>
+						<ul>
+							<li>750g farine</li>
+							<li>2csp d'huile</li>
+						</ul>
+					</div>
+					<div class="cooking col-xs-3">
+						<h2>Steps</h2>
+						<ol id="steps">
+							<li>Step 1</li>
+							<li>Step 2</li>
+						</ol>
+					</div>
+				</div>
+				<div id="cooklist-mode" class="mode">
+					<div class="cooking col-xs-6">
+						<h3 id="name">Blabla</h3>
+						<table id="all" class="table table-bordered table-hover">
+							<tr><th>Recipe</th><th>Score</th><th>Site</th><th>Added</th></tr>
+							<tr><td>Bla</td><td>0.98</td><td>Marimton</td><td>4 min ago</td></tr>
+							<tr><td>Bla</td><td>0.98</td><td>Marimton</td><td>4 min ago</td></tr>
+							<tr><td>Bla</td><td>0.98</td><td>Marimton</td><td>4 min ago</td></tr>
+							<tr><td>Bla</td><td>0.98</td><td>Marimton</td><td>4 min ago</td></tr>
+							<tr><td>Bla</td><td>0.98</td><td>Marimton</td><td>4 min ago</td></tr>
+						</table>
+					</div>
+					<div class="cooking col-xs-3">
+						<h2>All ingredients</h2>
+						<ul id="allIngredients">
+							<li>750g farine</li>
+							<li>2csp d'huile</li>
+						</ul>
+					</div>					
+				</div>
+	 		</div>
+			<footer>
 			</footer>
 		</div>
 		<script type="text/javascript" src="http://cdn.jsdelivr.net/jquery/2.1.1/jquery.js"></script>
 		<script src="../target/scala-2.11/spatula-fastopt.js"></script>
 		<script src="../target/scala-2.11/spatula-launcher.js"></script>
  		<script src="bootstrap.min.js">
- 		<script src="main.js">
+ 		<script src="jinplace.min.js">
 	</body>
 </html>

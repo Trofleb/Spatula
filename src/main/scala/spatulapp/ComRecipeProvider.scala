@@ -26,7 +26,7 @@ object ComRecipeProvider extends RecipeProvider {
 
   def parseResults(document : String) : Future[Seq[Recipe]] = {
 
-    val recipeLinks = findRecipesLinks(document).take(1)
+    val recipeLinks = findRecipesLinks(document).take(MAX_RECIPE)
     val recipes = recipeLinks map {case x : String => IOHandler.get(x)(parseRecipePage(x))}
 
     recipes.foldLeft(Future(Seq.empty[Recipe])){
@@ -41,11 +41,9 @@ object ComRecipeProvider extends RecipeProvider {
   }
 
   def parseRecipePage(url : String)(page : String) : Recipe = {
-    IOHandler.log(page)
 
     val patternTitle = """<meta property=\"og:title\" content=\"([a-zA-Z\ ]+)\" \/>""".r
     val title = (patternTitle findAllIn(page)).matchData.next group 1
-
 
     val patternScore = """<span class=\"hide\" itemprop=\"ratingValue\">(\d(\.\d)*)<\/span>""".r
     val score = ((patternScore findAllIn(page)).matchData.next group 1).toDouble / 5.0
@@ -57,11 +55,11 @@ object ComRecipeProvider extends RecipeProvider {
     val patternIngredients = """<div class=\"floatleft ingredient\">\n(\ )*([a-zA-Z\d\ ,\-]+)</div>""".r
     val ingredients = (((patternIngredients findAllIn(page)).matchData) map ( x => x group 2)) toList
 
-    val withFuckingLinks : Seq[String] = (parseHtml(page).find(".stepbystepInstruction") toArray) map (x => jQuery(x).html)
-    
-    IOHandler.log("hello " + withFuckingLinks.mkString("\n"))
+    val rawSteps : Seq[String] = (parseHtml(page).find(".stepbystepInstruction") toArray) map (x => jQuery(x).html)
+    val patternTrailingSpaces = """\n(\ )+""".r
+    val withLinksSteps = rawSteps map (x => patternTrailingSpaces replaceFirstIn(x, ""))
 
     Recipe(title, score, /*picture*/ picture, /*ingredients*/ ingredients,
-      /*stepByStep*/ withFuckingLinks, websiteName, url)
+      /*stepByStep*/ withLinksSteps, websiteName, url)
   }
 }
