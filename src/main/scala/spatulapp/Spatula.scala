@@ -51,6 +51,7 @@ object Spatula extends js.JSApp {
             SideView.updateCookingList(cookingList.map(_._2).toSeq)
         })
 
+
     }
 
     def searchTerms(terms: String): Unit = {
