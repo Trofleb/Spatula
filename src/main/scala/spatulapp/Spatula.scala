@@ -10,7 +10,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Success, Failure}
 
 object Spatula extends js.JSApp {
-  val sites : Seq[RecipeProvider] = Seq(AllRecipeProvider, ComRecipeProvider)
+  val sites : Seq[RecipeProvider] = Seq(ComRecipeProvider)
 
   var recipes : Seq[Recipe] = Seq()
 
@@ -21,7 +21,7 @@ object Spatula extends js.JSApp {
 
     //$("#lookup").on(events = "change", handler = "")
 
-    val searchTerm = "curry"
+    val searchTerm = "potato"
 
     $("body").append("<p>[message]</p>")
 
