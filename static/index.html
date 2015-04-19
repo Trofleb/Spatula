@@ -14,6 +14,7 @@
 	<body>
 		<div id="site">
 			<header id="topbar" class="row">
+
 				<div class="col-xs-3">
 					<h1 id="logo">Spatula</h1>
 				</div>
@@ -25,7 +26,8 @@
 					  <a class="btn btn-link" id="back"><span class="glyphicon glyphicon-chevron-left"></span></a>
 					  <a class="btn btn-link disabled" href=""><span class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
-			</div>
+					<img id="loader" src="loader.gif">
+				</div>
 			</header>
 	 		<div id="main" class="row">
 		 		<nav id="side" class="col-xs-3">
@@ -72,7 +74,16 @@
 							<span class="glyphicon glyphicon-certificate"></span><strong>Score</strong> : <span class="score">0.89</span><br>
 							<span class="glyphicon glyphicon-cloud"></span><strong>Site</strong> : <a class="site" href="">http://google.com</a>
 						</div>
-						<button class="btn btn-link" type="button" id="add">Add to list</button>
+						<div class="btn-group">
+						  <a href="" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						    Action <span class="caret"></span>
+						  </a>
+						  <ul class="dropdown-menu">
+						    <li><a href="" class="addlist">Action</a></li>
+						    <li><a href="">Another action</a></li>
+						    <li><a href="">Something else here</a></li>
+						  </ul>
+						</div>
 					</div>
 					<div id="ingredients" class="cooking col-xs-3">
 						<h2>Ingredients</h2>
