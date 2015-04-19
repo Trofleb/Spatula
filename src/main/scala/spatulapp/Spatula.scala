@@ -30,7 +30,7 @@ object Spatula extends js.JSApp {
     )
 
     val cookingList = mutable.Map.empty[CookingListID, CookingList]
-    testLists.foreach(e => cookingList += e.name -> e)
+    initialLists.foreach(e => cookingList += e.name -> e)
 
     def main: Unit = {
 
