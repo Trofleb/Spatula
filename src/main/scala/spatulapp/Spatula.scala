@@ -41,6 +41,10 @@ object Spatula extends js.JSApp {
         //showList("french")
         SideView.updateCookingList(cookingList.map(_._2).toSeq)
 
+        Events.click(".addlist", Events.body)((e: JQuery) => 
+            e.show()
+        )
+
         Events.on("change")("#lookup", Events.body)((e: JQuery) => {
             jQuery("#loader").css("visibility", "visible")
             searchTerms(e.value.toString)

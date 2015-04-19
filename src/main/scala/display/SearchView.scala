@@ -18,7 +18,6 @@ object SearchView extends View {
         |   </div>
         | </a>
       """.stripMargin)
-    println("dsfdsfsdfsdf"+id)
   }
 
   def trashResult: Unit = {
