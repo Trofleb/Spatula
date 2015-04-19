@@ -4,27 +4,34 @@ import org.scalajs.dom
 import org.scalajs.jquery.{jQuery => $, _}
 import spatulapp.Spatula
 
+import scala.collection.mutable
+
 object Events {
 
   val body = $("body")
-  private var clicks = 0
+  private var clicksCount = mutable.Map[String, Int]()
   val click = on("click")_
   val dblclick = on("dblclick")_
 
   def on(event: String)(selector: String, parent: JQuery = body)(callback: JQuery => Unit): Unit = {
 
     if (event == "dblclick") {
-      parent.on("click", selector, (e: JQueryEventObject) => {
-        e.preventDefault
-        clicks += 1
-        if (clicks == 1) {
-          schedule(250)({
-            if (clicks > 1) {
-              callback($(e.currentTarget))
-            }
-            clicks = 0
-          })
-        }
+        parent.on("click", selector, (e: JQueryEventObject) => {
+          e.preventDefault
+          if (clicksCount.contains(selector)) {
+            clicksCount(selector) += 1
+          } else {
+            clicksCount(selector) = 0
+          }
+          if (clicksCount(selector) == 3) {
+            schedule(250)({
+              if (clicksCount(selector) > 1) {
+                callback($(e.currentTarget))
+              }
+              clicksCount(selector) = 0
+              println("double")
+            })
+          }
       })
 
     } else {
