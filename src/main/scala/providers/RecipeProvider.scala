@@ -1,8 +1,9 @@
-package spatulapp
+package providers
 
 import org.scalajs.jquery.{JQuery, jQuery}
 import scala.concurrent._
 import scala.concurrent.ExecutionContext.Implicits.global
+import spatulapp._
 
 abstract class RecipeProvider{
   val MAX_RECIPE = 3

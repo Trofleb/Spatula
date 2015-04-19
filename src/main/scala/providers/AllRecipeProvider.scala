@@ -1,9 +1,10 @@
-package spatulapp
+package providers
 
 import scala.util.{Try, Success, Failure}
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.scalajs.jquery.{JQuery, jQuery}
 import scala.concurrent.Future
+import spatulapp._
 
 object AllRecipeProvider extends RecipeProvider{
 
@@ -24,7 +25,6 @@ object AllRecipeProvider extends RecipeProvider{
           val jTitle = jQuery(e).find(".title")
           val title = jTitle.html
           val url = "http://allrecipes.com/" + jTitle.attr("href")
-          println("recipe : " + title)
           IOHandler.get(url)(extract(url,title))
         })
       )
@@ -36,7 +36,8 @@ object AllRecipeProvider extends RecipeProvider{
   def extract(url: String, title: String)(html: String): Recipe = {
 
     val parsed = parseHtml(html)
-    val stars = parsed.find(".rating-stars-img").find("meta").attr("content").toDouble/5
+    val ratingImg =  parsed.find(".rating-stars-img").find("meta")
+    val stars = if (ratingImg.length > 0) ratingImg.attr("content").toDouble/5 else 0.0
     val picture = parsed.find("#divHeroPhotoContainer").find("#imgPhoto").attr("src")
     val ingredients = parsed.find("#liIngredient").toArray.map(i => {
         val ing = jQuery(i)
@@ -49,7 +50,7 @@ object AllRecipeProvider extends RecipeProvider{
       })
     val website = "allrecipes"
     val originUrl = url
-
+    
     Recipe(title,
             stars,
             if (picture == "http://images.media-allrecipes.com/images/44555.png") None else Some(picture),

@@ -23,6 +23,12 @@ body {
 	margin: 10px;
 }
 
+#loader {
+	visibility: hidden;
+	width: 50px;
+	height: inherit;
+}
+
 #topbar #lookup {
 	width: 100%;
 	border: 0;
