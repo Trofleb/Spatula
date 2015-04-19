@@ -1,8 +1,7 @@
 package spatulapp
 
-import org.scalajs.dom
 import org.scalajs.jquery.JQuery
-import org.scalajs.jquery.jQuery
+import org.scalajs.jquery.{jQuery => $}
 import spatulapp.CookingList.CookingListID
 import spatulapp.Recipe_t.RecipeID
 
@@ -16,7 +15,6 @@ import providers._
 import display._
 
 import be.doeraene.spickling._
-import be.doeraene.spickling.jsany._
 
 object Spatula extends js.JSApp {
     PicklerRegistry.register[Recipe]
@@ -25,8 +23,8 @@ object Spatula extends js.JSApp {
     var recipes = Map.empty[RecipeID, Recipe]
 
     val initialLists = List(
-        new CookingList("french"),
-        new CookingList("english")
+        new CookingList("French food"),
+        new CookingList("English food")
     )
 
     val cookingList = mutable.Map.empty[CookingListID, CookingList]
@@ -41,12 +39,21 @@ object Spatula extends js.JSApp {
         //showList("french")
         SideView.updateCookingList(cookingList.map(_._2).toSeq)
 
-        Events.click(".addlist", Events.body)((e: JQuery) => 
-            e.show()
-        )
+        Events.click(".addtolist", Events.body)((e: JQuery) => {
+            val id = e.attr("rel")
+            cookingList(id) += recipes(RecipeView.container.attr("rel").toInt)
+            SideView.updateCookingList(cookingList.map(_._2).toSeq)
+            showList(id)
+        })
+
+        Events.on("click")("#addList a", Events.body)((e: JQuery) => {
+            val sel = $("#addList ul")
+            if (sel.css("display") == "none") sel.show()
+            else sel.hide()
+        })
 
         Events.on("change")("#lookup", Events.body)((e: JQuery) => {
-            jQuery("#loader").css("visibility", "visible")
+            $("#loader").css("visibility", "visible")
             searchTerms(e.value.toString)
         })
 
@@ -76,13 +83,9 @@ object Spatula extends js.JSApp {
     }
 
     def onSuccessSearch(s: Seq[Recipe]){
-      jQuery("#loader").css("visibility", "hidden")
+      $("#loader").css("visibility", "hidden")
       recipes = s.map(e => e.id -> e).toMap
       showSearch
-      //showRecipe(recipes.head._1)
-      cookingList("french") += recipes(1)
-      cookingList("french") += recipes(2)
-      cookingList("english") += recipes(0)
     }
 
     def showSearch: Unit = {
