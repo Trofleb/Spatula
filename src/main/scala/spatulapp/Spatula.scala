@@ -2,6 +2,7 @@ package spatulapp
 
 import org.scalajs.dom
 import org.scalajs.jquery.JQuery
+import org.scalajs.jquery.jQuery
 import spatulapp.CookingList.CookingListID
 import spatulapp.Recipe.RecipeID
 
@@ -37,6 +38,7 @@ object Spatula extends js.JSApp {
         SideView.updateCookingList(cookingList.map(_._2).toSeq)
 
         Events.on("change")("#lookup", Events.body)((e: JQuery) => {
+            jQuery("#loader").css("visibility", "visible")
             searchTerms(e.value.toString)
         })
 
@@ -53,13 +55,10 @@ object Spatula extends js.JSApp {
             cookingList += add.name -> add
             SideView.updateCookingList(cookingList.map(_._2).toSeq)
         })
-
     }
 
     def searchTerms(terms: String): Unit = {
-        val searches = Future.sequence(sites.map(x => x.search(terms)))/*.foldLeft(Future(Seq.empty[Recipe])){
-            case (lf1, lf2) => for(l1 <- lf1; l2 <- lf2) yield l1 ++ l2
-        }*/
+        val searches = Future.sequence(sites.map(x => x.search(terms)))
 
         searches onComplete {
             case Success(s) => onSuccessSearch(s.flatten)
@@ -68,6 +67,7 @@ object Spatula extends js.JSApp {
     }
 
     def onSuccessSearch(s: Seq[Recipe]){
+      jQuery("#loader").css("visibility", "hidden")
       recipes = s.map(e => e.id -> e).toMap
       showSearch
       //showRecipe(recipes.head._1)
