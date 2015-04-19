@@ -14,7 +14,7 @@ object SimplyRecipesProvider extends RecipeProvider {
 		val postId = $.find("#content > article:first").prop("id").toString
 		val picture = Some($.find(s"#$postId > div.featured-image > img:first").prop("src").toString)
 		val title = $.find(s"#$postId > header > h1").html().toString
-		val stars = scala.util.Random.nextInt(6)
+		val stars = scala.util.Random.nextDouble()
 
 		val pp = $.find(s"#$postId > div.entry-content > div.recipe-callout > div.entry-details.recipe-ingredients > ul > li")
 		val ingredients = pp.toArray().map (x => jQuery(x).html().toString)
