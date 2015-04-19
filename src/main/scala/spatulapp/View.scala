@@ -111,6 +111,7 @@ object SearchView extends View {
 
 		recipes.filter(_.website == "allrecipes").map(e => SearchView.addResult(0, e))
 		recipes.filter(_.website == "www.simplyrecipes.com").map(e => SearchView.addResult(1, e))
+		recipes.filter(_.website == "recipe.com").map(SearchView.addResult(2, _))
 	}
 
 }
