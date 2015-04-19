@@ -21,7 +21,7 @@ object Spatula extends js.JSApp {
 
     //$("#lookup").on(events = "change", handler = "")
 
-    val searchTerm = "curry"
+    val searchTerm = "pesto pasta"
 
     $("body").append("<p>[message]</p>")
 
