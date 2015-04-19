@@ -35,7 +35,8 @@ object SimplyRecipesProvider extends RecipeProvider {
 
 		// skip non-recipe entries
 		val recipesOnly = entryList.toArray() filter { x =>
-			!jQuery(x).attr("class").toString.contains("category-how_to")
+			val clazz = jQuery(x).attr("class").toString
+			!clazz.contains("category-how_to") && clazz.contains("recipe")
 		}
 
 		val hrefs = jQuery(recipesOnly).find("[href]").toArray()
