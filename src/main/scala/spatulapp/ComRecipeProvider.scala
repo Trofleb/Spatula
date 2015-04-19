@@ -43,7 +43,7 @@ object ComRecipeProvider extends RecipeProvider {
 
   def parseRecipePage(url : String)(page : String) : Option[Recipe] = {
 
-    val patternTitle = """<meta property=\"og:title\" content=\"([a-zA-Z\ &]+)\" \/>""".r
+    val patternTitle = """<meta property=\"og:title\" content=\"([a-zA-Z\ &amp;]+)\" \/>""".r
     val foundTit = ((patternTitle findAllIn(page)))
     val title : String = if (!foundTit.isEmpty) {
       foundTit.matchData.next group 1
