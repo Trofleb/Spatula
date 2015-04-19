@@ -1,11 +1,11 @@
 package spatulapp
 
-import spatulapp.CookingList.ListID
+import spatulapp.CookingList.CookingListID
 
 import scala.collection.mutable
 
 
-class CookingList(val name: ListID) {
+class CookingList(var name: CookingListID) {
 
 	val recipes = mutable.ListBuffer[Recipe]()
 
@@ -17,6 +17,6 @@ class CookingList(val name: ListID) {
 
 object CookingList {
 
-	type ListID = String
+	type CookingListID = String
 
 }

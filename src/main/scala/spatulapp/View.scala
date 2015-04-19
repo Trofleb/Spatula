@@ -21,7 +21,6 @@ trait View {
 object Events {
 
 	val body = $("body")
-	private var shift = false
 	private var clicks = 0
 	val click = on("click")_
 	val dblclick = on("dblclick")_
@@ -55,27 +54,25 @@ object Events {
 		dom.setTimeout(() => action, delay)
 	}
 
-	$("body").on("keydown", (e: JQueryEventObject) => {
-		shift = e.which == 16
-	})
-
-	$("body").on("keyup", (e: JQueryEventObject) => {
-		shift = e.which == 16
-	})
-
 	def editable(selector: String, parent: JQuery = body): Unit = {
 		dblclick(selector, parent)(e => openEdit(e))
 	}
 
 	def openEdit(e: JQuery): Unit = {
 		closeEdit($(".edit"))
-		e.replaceWith( s"""<input class="edit" prev="${e.html}" rel="${e.attr("rel")}" value="${e.html}">""")
+		e.replaceWith( s"""<input class="edit" rel="${e.attr("rel")}" value="${e.html}">""")
 		$(".edit").focus
 	}
 
 	def closeEdit(e: JQuery): Unit = {
 		if (e.length > 0) {
-			e.replaceWith( s"""<a rel="${e.attr("rel")}">${e.value}</a>""")
+			val id = e.attr("rel")
+			val value = e.value.toString
+			e.replaceWith( s"""<a rel="$id">$value</a>""")
+			val old = Spatula.cookingList(id)
+			old.name = value
+			Spatula.cookingList += old.name -> old
+			Spatula.showList(id)
 		}
 	}
 
@@ -87,33 +84,33 @@ object Events {
 
 }
 
-final class Search(private val $: JQuery) {
-
-}
-
 object SearchView extends View {
 
-	val container = $("search-mode")
+	val container = $("#search-mode")
 	val result = List($("#result1", container), $("#result2", container), $("#result3", container))
 
 	def addResult(id: Int, r: Recipe) = {
 		result(id).append(
 			s"""
-			  |<a href="" class="recipe">
+			  |<a rel="${r.id}" class="recipe">
 			  |		<img src="${r.picture.get}">
 			  |		<div class="infos">
-			  |		    <h3>${r.title}</h3><span class="score pull-right">${r.stars}</span>
+			  |		    <h3>${r.title}</h3><span class="score pull-right">${(r.stars * 100).toInt}</span>
 			  |		</div>
 			  |	</a>
 			""".stripMargin)
+		println("dsfdsfsdfsdf"+id)
 	}
 
 	def trashResult: Unit = {
 		result.foreach($("a", _).remove)
 	}
 
-	def apply(terms: String): Unit = {
+	def apply(recipes: Seq[Recipe]): Unit = {
+		trashResult
 
+		recipes.filter(_.website == "allrecipes").map(e => SearchView.addResult(0, e))
+		recipes.filter(_.website == "www.simplyrecipes.com").map(e => SearchView.addResult(1, e))
 	}
 
 }
@@ -156,7 +153,7 @@ object CookingListView extends View {
 
 	def addRecipe(r: Recipe): Unit = {
 		r.ingredients.foreach(addIngredient)
-		table.append(s"""<tr rel="${r.id}"><td>${r.title}</td><td>${r.stars}</td><td>${r.website}</td><td>${r.date}</td></tr>""")
+		table.append(s"""<tr rel="${r.id}"><td>${r.title}</td><td>${(r.stars * 100).toInt}</td><td>${r.website}</td><td>${r.date}</td></tr>""")
 	}
 
 	def trashRecipes: Unit = {

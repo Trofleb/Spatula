@@ -93,7 +93,7 @@ body {
 }
 
 #main #cooklist-mode {
-	display: block;
+	display: none;
 }
 
 #main #recipe-mode {
