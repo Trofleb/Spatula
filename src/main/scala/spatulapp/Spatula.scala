@@ -4,7 +4,7 @@ import org.scalajs.dom
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.jQuery
 import spatulapp.CookingList.CookingListID
-import spatulapp.Recipe.RecipeID
+import spatulapp.Recipe_t.RecipeID
 
 import scala.collection.mutable
 import scala.concurrent.Future
@@ -15,12 +15,16 @@ import scala.util.{Success, Failure}
 import providers._
 import display._
 
+import be.doeraene.spickling._
+import be.doeraene.spickling.jsany._
+
 object Spatula extends js.JSApp {
+    PicklerRegistry.register[Recipe]
 
     val sites : Seq[RecipeProvider] = Seq(ComRecipeProvider, AllRecipeProvider, SimplyRecipesProvider)
     var recipes = Map.empty[RecipeID, Recipe]
 
-    val testLists = List(
+    val initialLists = List(
         new CookingList("french"),
         new CookingList("english")
     )

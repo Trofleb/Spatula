@@ -1,6 +1,6 @@
 package spatulapp
 
-import spatulapp.Recipe.{RecipeID, Ingredient}
+import spatulapp.Recipe_t.{RecipeID, Ingredient}
 
 import scala.scalajs.js.Date
 
@@ -15,11 +15,11 @@ case class Recipe(
               ){
 
   val date = new Date
-  val id: RecipeID = Recipe.getID
+  val id: RecipeID = Recipe_t.getID
 
 }
 
-object Recipe extends UniqueID {
+object Recipe_t extends UniqueID {
 
   type Ingredient = String
   type RecipeID = Int

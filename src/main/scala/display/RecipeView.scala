@@ -2,7 +2,7 @@ package display
 
 import org.scalajs.jquery.{jQuery => $, _}
 import spatulapp.Recipe
-import spatulapp.Recipe.Ingredient
+import spatulapp.Recipe_t.Ingredient
 
 
 object RecipeView extends View {
@@ -38,6 +38,7 @@ object RecipeView extends View {
   }
 
   def apply(r: Recipe): Unit = {
+    container.attr("rel", r.id)
     trashIngredients
     trashSteps
     updateMeta(r)

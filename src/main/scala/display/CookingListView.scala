@@ -2,7 +2,7 @@ package display
 
 import org.scalajs.jquery.{jQuery => $, _}
 import spatulapp._
-import spatulapp.Recipe.Ingredient
+import spatulapp.Recipe_t.Ingredient
 
 object CookingListView extends View {
 
