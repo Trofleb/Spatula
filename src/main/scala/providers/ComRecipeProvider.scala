@@ -37,9 +37,13 @@ object ComRecipeProvider extends RecipeProvider {
   }
 
   def findRecipesLinks(document : String) : Seq[String] = {
-    val pattern = """http\:\/\/www\.recipe\.com\/[a-zA-Z\-]+\/""".r
-    val links = pattern findAllIn(document)
-    (links filterNot (link => notRecipes.exists(link.contains)) toList) distinct
+    val patternNoRes = """<p class=\"noResults\">""".r
+    if(patternNoRes.findAllIn(document).isEmpty){
+      val pattern = """http\:\/\/www\.recipe\.com\/[a-zA-Z\-]+\/""".r
+      val links = pattern findAllIn(document)
+      (links filterNot (link => notRecipes.exists(link.contains)) toList) distinct
+    }
+    else { Seq() }
   }
 
   def parseRecipePage(url : String)(page : String) : Option[Recipe] = {
