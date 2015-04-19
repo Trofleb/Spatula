@@ -21,6 +21,7 @@ object Spatula extends js.JSApp {
 
     val sites : Seq[RecipeProvider] = Seq(ComRecipeProvider, AllRecipeProvider, SimplyRecipesProvider)
     var recipes = Map.empty[RecipeID, Recipe]
+    val searchQueue = mutable.ArrayBuffer[String]()
 
     val initialLists = List(
         new CookingList("French food"),
@@ -38,6 +39,7 @@ object Spatula extends js.JSApp {
         //showRecipe(1)
         //showList("french")
         SideView.updateCookingList(cookingList.map(_._2).toSeq)
+        SideView.updateSearchList()
 
         Events.click(".addtolist", Events.body)((e: JQuery) => {
             val id = e.attr("rel")
@@ -77,7 +79,7 @@ object Spatula extends js.JSApp {
         val searches = Future.sequence(sites.map(x => x.search(terms)))
 
         searches onComplete {
-            case Success(s) => onSuccessSearch(s.flatten)
+            case Success(s) => onSuccessSearch(s.flatten, terms)
             case Failure(_) => IOHandler.log("there is error(s?)")
         }
     }
@@ -85,6 +87,9 @@ object Spatula extends js.JSApp {
     def onSuccessSearch(s: Seq[Recipe]){
       $("#loader").css("visibility", "hidden")
       recipes = s.map(e => e.id -> e).toMap
+      Spatula.searchQueue -= t
+      searchQueue.prepend(t)
+      SideView.updateSearchList()
       showSearch
     }
 
