@@ -20,7 +20,11 @@ object SimplyRecipesProvider extends RecipeProvider {
 		val ingredients = pp.toArray().map (x => jQuery(x).html().toString)
 
 		val tt = $.find(s"#$postId > div.entry-content > div.recipe-callout > div.entry-details.recipe-method.instructions > div > p")
-		val instructions = tt.toArray().map (x => jQuery(x).html())
+		val instructions = tt.toArray().map {x =>
+			val s = jQuery(x).html().toString
+			val i = s.indexOfSlice("</b>")
+			if (i < 0) s else s.drop(4 + i).trim
+		}
 		val website = "www.simplyrecipes.com"
 		Some(Recipe(title, stars, picture, ingredients, instructions, website, originUrl))
   }
